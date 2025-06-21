@@ -12,7 +12,7 @@ WAIT_TIME = 1  # seconds between requests to avoid throttling
 # === INPUT MOVIE TITLES ===
 # Format: "MOVIE TITLE (YYYY)"
 MOVIE_TITLES = [
-
+"The Cable Guy (1996)"
 
 ]
 
