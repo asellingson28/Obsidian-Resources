@@ -5,7 +5,7 @@ import re
 from normalize_genres import normalize_genres_in_folder
 
 # === CONFIG ===
-OMDB_API_KEY = "167bbacb"  # Replace with your OMDb API key
+OMDB_API_KEY = ""  # Replace with your OMDb API key
 OUTPUT_DIR = "3. Bibliography/Movies"
 WAIT_TIME = 1  # seconds between requests to avoid throttling
 
