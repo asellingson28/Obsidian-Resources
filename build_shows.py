@@ -4,7 +4,7 @@ import time
 import re
 
 # === CONFIG ===
-OMDB_API_KEY = ""  # Replace this with your OMDb API key
+OMDB_API_KEY = "167bbacb"  # Replace this with your OMDb API key
 OUTPUT_DIR = "3. Bibliography/TV Shows"
 WAIT_TIME = 1  # To avoid rate limits (1s between requests)
 

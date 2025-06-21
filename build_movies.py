@@ -2,19 +2,18 @@ import os
 import requests
 import time
 import re
+from normalize_genres import normalize_genres_in_folder
 
 # === CONFIG ===
-OMDB_API_KEY = ""  # Replace with your OMDb API key
+OMDB_API_KEY = "167bbacb"  # Replace with your OMDb API key
 OUTPUT_DIR = "3. Bibliography/Movies"
 WAIT_TIME = 1  # seconds between requests to avoid throttling
 
 # === INPUT MOVIE TITLES ===
+# Format: "MOVIE TITLE (YYYY)"
 MOVIE_TITLES = [
-"No Place in This World",
-"A Quiet Place Part II",
-"A Quiet Place: Day One"
 
-    # Add as many as you want here
+
 ]
 
 # === CREATE OUTPUT DIRECTORY ===
@@ -27,10 +26,22 @@ def to_multiline_yaml(key, items):
     return f"{key}:\n" + "\n".join(f"  - {item.strip()}" for item in items)
 
 # === MAIN LOOP ===
-for title in MOVIE_TITLES:
-    query = re.sub(r"\s+", "+", title.strip())
+
+for full_title in MOVIE_TITLES:
+    match = re.match(r"^(.*?)(?:\s\((\d{4})\))?$", full_title.strip())
+    title = match.group(1)
+    year = match.group(2) or ""
+
+    query = title.replace(" ", "+")
     url = f"http://www.omdbapi.com/?t={query}&apikey={OMDB_API_KEY}"
-    
+    if year:
+        url += f"&y={year}"
+
+    response = requests.get(url)
+    data = response.json()
+
+    # ... continue with validation and frontmatter generation ...
+
     response = requests.get(url)
     data = response.json()
 
@@ -58,12 +69,17 @@ watched: false
 {to_multiline_yaml('genre', genres)}
 favorite: false
 ---"""
-
-    # Save note
     filename = f"{data.get('Title').replace('/', '-')}.md"
     filepath = os.path.join(OUTPUT_DIR, filename)
+
+    # === Skip if file already exists ===
+    if os.path.exists(filepath):
+        print(f"⏩ Skipped (already exists): {filename}")
+        continue
+
     with open(filepath, "w", encoding="utf-8") as f:
         f.write(frontmatter)
 
     print(f"✅ Saved: {filename}")
     time.sleep(WAIT_TIME)  # avoid hitting rate limit
+normalize_genres_in_folder(OUTPUT_DIR)
