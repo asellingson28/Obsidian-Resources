@@ -6,15 +6,12 @@ from normalize_genres import normalize_genres_in_folder
 
 # === CONFIG ===
 OMDB_API_KEY = "167bbacb"  # Replace with your OMDb API key
-OUTPUT_DIR = "3. Bibliography/Movies"
+OUTPUT_DIR = "3. Bibliography"
 WAIT_TIME = 1  # seconds between requests to avoid throttling
 
 # === INPUT MOVIE TITLES ===
 # Format: "MOVIE TITLE (YYYY)"
-MOVIE_TITLES = [
-"The Cable Guy (1996)"
-
-]
+MOVIE_TITLES = ["Emma. (2020)","The Founder","You've Got Mail","The Departed","Wolfs", "Smile","Smile 2","Much Ado About Nothing", "The Babysitter", "Miller's Girl"]
 
 # === CREATE OUTPUT DIRECTORY ===
 os.makedirs(OUTPUT_DIR, exist_ok=True)
